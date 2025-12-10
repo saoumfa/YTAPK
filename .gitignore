@@ -1,0 +1,37 @@
+# WSL build directories
+.buildozer/
+build_env/
+kivy_env/
+
+# Virtual environments
+venv/
+env/
+__pycache__/
+*.pyc
+
+# WSL temporary files
+=*
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+bin/
+*.apk
+*.aab

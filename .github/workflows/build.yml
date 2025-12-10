@@ -1,0 +1,54 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install Buildozer
+      run: |
+        pip install buildozer==1.5.0
+        
+    - name: Install system dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y -qq git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config libffi-dev libssl-dev build-essential
+        
+    - name: Cache Buildozer
+      uses: actions/cache@v3
+      with:
+        path: .buildozer
+        key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+        restore-keys: |
+          ${{ runner.os }}-buildozer-
+          
+    - name: Build APK
+      run: |
+        buildozer -v android debug
+        
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: youtube-summaries-apk
+        path: bin/*.apk
+        retention-days: 30
+        
+    - name: Show build info
+      run: |
+        echo "Build completed!"
+        ls -la bin/
