@@ -140,6 +140,9 @@ android.ndk = 25b
 # buildozer.
 android.accept_sdk_license = True
 
+# (str) Python version to use for android builds
+android.python_version = 3.10
+
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.kivy.android.PythonActivity
 
