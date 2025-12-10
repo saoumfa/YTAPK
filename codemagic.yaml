@@ -1,0 +1,39 @@
+workflows:
+  android-workflow:
+    name: Android APK Build
+    max_build_duration: 30
+    environment:
+      android_signing:
+        - keystore_reference
+      groups:
+        - google_credentials
+      vars:
+        BUILDOZER_VERSION: "1.5.0"
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+    scripts:
+      - name: Install Buildozer
+        script: |
+          pip install buildozer==$BUILDOZER_VERSION cython
+      - name: Install system dependencies
+        script: |
+          sudo apt-get update
+          sudo apt-get install -y -qq git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config libffi-dev libssl-dev build-essential
+      - name: Set up Android SDK
+        script: |
+          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+      - name: Build APK
+        script: |
+          buildozer -v android debug
+    artifacts:
+      - bin/*.apk
+    publishing:
+      email:
+        recipients:
+          - user@example.com
