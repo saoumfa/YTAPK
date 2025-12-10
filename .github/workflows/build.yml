@@ -20,9 +20,9 @@ jobs:
       with:
         python-version: '3.11'
         
-    - name: Install Buildozer
+    - name: Install Buildozer and Cython
       run: |
-        pip install buildozer==1.5.0
+        pip install buildozer==1.5.0 cython
         
     - name: Install system dependencies
       run: |
