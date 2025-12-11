@@ -45,6 +45,19 @@ workflows:
           echo "Using Java: $JAVA_HOME"
           echo "Java version:"
           $JAVA_HOME/bin/java -version
+          
+          # Add JAXB dependencies for Android SDK compatibility
+          JAXB_JAR=$JAVA_HOME/jmods/javax.xml.bind.jmod
+          if [ -f "$JAXB_JAR" ]; then
+            echo "JAXB module found at $JAXB_JAR"
+          else
+            echo "JAXB module not found, downloading dependencies..."
+            curl -L -o jaxb-api.jar https://repo1.maven.org/maven2/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar
+            curl -L -o jaxb-impl.jar https://repo1.maven.org/maven2/com/sun/xml/bind/jaxb-impl/2.3.1/jaxb-impl-2.3.1.jar
+            curl -L -o jaxb-core.jar https://repo1.maven.org/maven2/com/sun/xml/bind/jaxb-core/2.3.1/jaxb-core-2.3.1.jar
+            export CLASSPATH=$CLASSPATH:jaxb-api.jar:jaxb-impl.jar:jaxb-core.jar
+          fi
+          
           yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
       - name: Build APK
         script: |
