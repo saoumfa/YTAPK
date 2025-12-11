@@ -31,6 +31,9 @@ workflows:
           fi
       - name: Set up Android SDK
         script: |
+          # Use Java 11 for Android SDK compatibility
+          export JAVA_HOME=$JAVA_HOME_11_X64
+          echo "Using Java: $JAVA_HOME"
           yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
       - name: Build APK
         script: |
