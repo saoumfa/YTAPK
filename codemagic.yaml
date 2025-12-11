@@ -18,7 +18,7 @@ workflows:
     scripts:
       - name: Install Buildozer
         script: |
-          pip install buildozer==$BUILDOZER_VERSION cython
+          pip install setuptools buildozer==$BUILDOZER_VERSION cython
       - name: Install system dependencies
         script: |
           if command -v brew &> /dev/null; then
