@@ -22,8 +22,10 @@ workflows:
       - name: Install system dependencies
         script: |
           if command -v brew &> /dev/null; then
-            # macOS - Codemagic M2 machines have most dependencies pre-installed
-            echo "Running on macOS, dependencies should be pre-installed"
+            # macOS - Install missing prerequisites for python-for-android
+            echo "Installing macOS prerequisites..."
+            brew install automake openssl@1.1
+            echo "macOS dependencies installed"
           else
             # Linux
             sudo apt-get update
