@@ -31,8 +31,17 @@ workflows:
           fi
       - name: Set up Android SDK
         script: |
-          # Use Java 11 for Android SDK compatibility
-          export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home
+          # Find and use Java 11 for Android SDK compatibility
+          if [ -d "/Library/Java/JavaVirtualMachines/temurin-11.jdk" ]; then
+            export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home
+          elif [ -d "/Library/Java/JavaVirtualMachines/zulu-11.jdk" ]; then
+            export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
+          elif [ -d "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk" ]; then
+            export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
+          else
+            echo "Java 11 not found, using default Java"
+            export JAVA_HOME=$JAVA_HOME
+          fi
           echo "Using Java: $JAVA_HOME"
           echo "Java version:"
           $JAVA_HOME/bin/java -version
