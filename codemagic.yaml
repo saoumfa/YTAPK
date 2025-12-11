@@ -32,8 +32,10 @@ workflows:
       - name: Set up Android SDK
         script: |
           # Use Java 11 for Android SDK compatibility
-          export JAVA_HOME=$JAVA_HOME_11_X64
+          export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home
           echo "Using Java: $JAVA_HOME"
+          echo "Java version:"
+          $JAVA_HOME/bin/java -version
           yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
       - name: Build APK
         script: |
